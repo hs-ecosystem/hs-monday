@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>OAuth</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      const getParameterByName = (name) => {
+        const params = new URLSearchParams(window.location.search)
+        return params.get(name)
+      }
+
+      const code = getParameterByName('code')
+      const stateParam = getParameterByName('state')
+      // Character length must be > 8
+      const regex = /mondayId\s*=\s*([\S\s]+)/i
+      const mondayId = regex.exec(stateParam)[1]
+
+      const vendorName = `hootsuite`
+      const productionUrl = `https://mn-hootsuite.herokuapp.com`
+
+      const baseUrl =
+        window.location.origin === productionUrl
+          ? productionUrl
+          : 'http://localhost:3000'
+
+      const url = `${window.location.origin}/api/${vendorName}/oauth/token`
+      console.log('urrrr', url, mondayId)
+      axios
+        .post(url, {
+          code,
+          mondayId,
+        })
+        .then(({ data }) => {
+          console.log('adsasdfasdasaaaa ', data)
+          window.opener.location.replace(`${baseUrl}/`)
+          if (data?.errorCode === '001') {
+            window.opener.location.replace(
+              `${baseUrl}/hootsuite-login?error=001`
+            )
+          } else {
+            window.opener.location.replace(`${baseUrl}/`)
+          }
+          window.close()
+        })
+        .catch((error) => {
+          console.log('Catch vendor oauth error', error)
+          window.close()
+        })
+    </script>
+  </body>
+</html>
