@@ -1,83 +1,27 @@
 {
-  "name": "mn-hootsuite",
-  "version": "1.0.0",
-  "main": "server.js",
-  "license": "MIT",
-  "author": {
-    "name": "J Money Apps"
+  "name": "hs-nextdoor-server",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "http-proxy-middleware": "^3.0.2",
+    "morgan": "^1.10.0",
+    "node-fetch": "^2.7.0",
+    "typescript": "^4.9.5"
   },
   "scripts": {
-    "tunnel": "TUNNEL=true node server.js",
-    "dev-https": "run-p dev-https:**",
-    "dev-https:server": "NODE_ENV=devhttps nodemon server.js",
-    "dev-https:app": "cd client && yarn start-https",
-    "dev": "run-p dev:**",
-    "dev:server": "nodemon server.js",
-    "s": "nodemon --trace-warnings server.js",
-    "dev:app": "cd client && yarn start",
-    "a": "cd client && yarn start",
-    "build:app": "cd client && yarn build",
-    "start": "node server.js",
-    "heroku-postbuild": "cd client && npm install && npm run build",
-    "yarn": "yarn && cd client && yarn",
-    "clean": "rm -rf node_modules && rm -rf yarn.lock && cd client && rm -rf node_modules && rm -rf yarn.lock",
-    "audit-both": "yarn audit;cd client && yarn audit",
-    "upgrade-both": "yarn upgrade --latest && cd client && yarn upgrade --latest",
-    "postinstall": "husky install",
-    "prepublishOnly": "pinst --disable",
-    "postpublish": "pinst --enable",
-    "lint": "eslint '**/*.js' --ignore-pattern node_modules"
-  },
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
-  "keywords": [
-    "heroku",
-    "express",
-    "create-react-app",
-    "react"
-  ],
-  "engines": {
-    "node": "18.x"
-  },
-  "dependencies": {
-    "axios": "^1.6.8",
-    "body-parser": "^1.19.0",
-    "compression": "^1.7.4",
-    "cookie-parser": "^1.4.5",
-    "cors": "^2.8.5",
-    "cryptr": "^6.0.2",
-    "date-fns": "^2.22.1",
-    "date-fns-tz": "^1.1.4",
-    "dotenv": "^10.0.0",
-    "eslint": "^7.30.0",
-    "express": "^4.19.2",
-    "express-force-https": "^1.0.0",
-    "ffprobe": "^1.1.2",
-    "ffprobe-static": "^3.1.0",
-    "file-type": "^16.5.0",
-    "form-data": "^4.0.0",
-    "hsts": "^2.2.0",
-    "jsonwebtoken": "^9.0.2",
-    "monday-sdk-js": "^0.5.4",
-    "mysql2": "^3.9.4",
-    "node-fetch": "^2.6.1",
-    "qs": "^6.9.6",
-    "query-string": "^7.0.1",
-    "rollbar": "^2.24.0",
-    "sequelize": "^6.6.4",
-    "simple-oauth2": "^4.2.0",
-    "twitter-api-v2": "^1.15.0"
+    "start": "node dist/server.js",
+    "build": "tsc --project tsconfig.json",
+    "heroku-postbuild": "npm run build && cd client && npm install && npm run build"
   },
   "devDependencies": {
-    "eslint-plugin-prettier": "^3.4.0",
-    "husky": "7.0.1",
-    "lint-staged": "^11.0.0",
-    "nodemon": "^3.0.3",
-    "npm-run-all": "^4.1.5",
-    "pinst": "^2.1.6",
-    "prettier": "^2.3.2",
-    "pretty-quick": "^3.1.1"
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.5.5",
+    "@types/node-fetch": "^2.6.11",
+    "ts-node": "^10.9.2"
   }
 }
