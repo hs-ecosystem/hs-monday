@@ -16,16 +16,37 @@ export async function getSocials(req: Request, res: Response) {
   }
 
   try {
-    const response = await fetch('https://platform.hootsuite.com/v1/me/socialProfiles', {
+    // Step 1: Fetch the list of social profiles
+    const response = await fetch('https://platform.hootsuite.com/v1/socialProfiles', {
       method: 'GET',
       headers: {
         accept: 'application/json',
-        authorization: `Bearer ${token}` // Pass the token received in the request
-      }
+        'content-type': 'application/json',
+        authorization: `Bearer ${token}`, // Pass the token received in the request
+      },
     });
 
     const data = await response.json();
-    res.json(data);
+    const socialProfiles = data.data; // Assuming data.data is the list of profiles
+
+    // Step 2: Fetch detailed info for each social profile by id
+    const detailedProfiles = await Promise.all(
+      socialProfiles.map(async (profile: { id: string; }) => {
+        const detailResponse = await fetch(`https://platform.hootsuite.com/v1/socialProfiles/${profile.id}`, {
+          method: 'GET',
+          headers: {
+            accept: 'application/json',
+            'content-type': 'application/json',
+            authorization: `Bearer ${token}`,
+          },
+        });
+        const profileDetail = await detailResponse.json();
+        return profileDetail;
+      })
+    );
+
+    // Step 3: Return the detailed profiles data as a response
+    res.json({ profiles: detailedProfiles });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to fetch user data' });
