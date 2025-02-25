@@ -1,46 +1,57 @@
-# Getting Started with Create React App
+## Run Locally
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+`yarn`
 
-## Available Scripts
+`cd client && yarn`
 
-In the project directory, you can run:
+`cd ../ && yarn dev`
 
-### `yarn start`
+Frontend: `http://localhost:3000/`
+Backend: `http://localhost:5000/api/hello`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Run https locally
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Make sure there are certs created and stored in the `certs` folder
 
-### `yarn test`
+Change the `oauth-vendor.html` to `localhost:3000/at?` from `/at?`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Run `yarn dev-https`
 
-### `yarn build`
+Frontend: `yarn dev-https:app`
+Backend: `yarn dev-https:server`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Deploy to Heroku
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### First time
 
-### `yarn eject`
+`git init`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+`hcreate` - Creates a new Heroku app based on directory name
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Add Buildpacks
+`heroku buildpacks:set heroku/nodejs`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Or individually:
+`heroku config:set GIT_SSH_HOST="gitlab.com"`
+`heroku config:set GIT_SSH_KEY=$(cat /Users/jmac/.ssh/id_rsa | base64)`
+`heroku config:set SSH_HOSTS="ssh://git@gitlab.com"`
+`heroku config:set SSH_KEY=$(cat /Users/jmac/.ssh/id_rsa | base64)`
 
-## Learn More
+And the Vendor Client ID and Secret:
+`heroku config:set VENDOR_CLIENT_ID="SOMEKINDOFID" VENDOR_CLIENT_SECRET="SOMEKINDOFID"`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+`hpush`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Material UI
+
+Icons - https://material.io/tools/icons/?style=baseline
+
+## Source Github
+
+https://github.com/esausilva/react-production-deployment/tree/master/heroku
+
+## Source Medium Blog Post
+
+https://blog.bitsrc.io/react-production-deployment-part-3-heroku-316319744885

@@ -1,0 +1,72 @@
+const color = {
+  primary: 'black',
+  secondary: 'white',
+  tertiary: 'dodgerblue',
+  text: 'black',
+  textAlt: 'white',
+  lightGrey: '#eceff1',
+  veryLightGrey: '#f1f1f1',
+
+  monday: {
+    primary: '#0085FF',
+    primaryHover: '#0071d9',
+    success: '#00CA72',
+    error: '#E44258',
+    highlight: '#DFF0FF',
+    dark: '#323338',
+    private: '#f65f7c',
+    shareable: '#a358df',
+    black: '#212121',
+  },
+  hootsuite: {
+    primary: '#ffffff',
+  },
+
+  default: {
+    text: 'black',
+    textMeta: 'black',
+    textDisabled: '#647883',
+    link: '#00A651',
+    primary: '#5ecc62',
+    secondary: '#b3dcff',
+    tertiary: '#00ad45',
+    backgroundDark: '#072946',
+    backgroundLight: 'white',
+    background500: '#5f806a',
+    background400: '#E3E7E8',
+    background300: '#5fae5e',
+    background200: '#FAFAFA',
+    background100: '#92c98a',
+    keyline: '#CDD2D4',
+  },
+
+  neturals: {
+    text: '#2F3638',
+    textMeta: '#5D6366',
+    textDisabled: '#959A9C',
+    link: '#0078A4',
+    background500: '#D9DDDE',
+    background400: '#E3E7E8',
+    background300: '#F0F2F2',
+    background200: '#FAFAFA',
+    background100: '#FFFFFF',
+    keyline: '#CDD2D4',
+  },
+
+  accents: {
+    primary: '#00AEEF',
+    primaryAccent: '#B3E7FB',
+    primaryBackground: '#DEF4FD',
+    error: '#E60000',
+    errorAccent: '#F9BFBF',
+    errorBackground: '#FBE5E5',
+    warning: '#F4B21E',
+    warningAccent: '#FFE380',
+    warningBackground: '#FFF1C0',
+    success: '#7AAF2C',
+    successAccent: '#C0DF95',
+    successBackground: '#EEF7E2',
+  },
+}
+
+export default color
