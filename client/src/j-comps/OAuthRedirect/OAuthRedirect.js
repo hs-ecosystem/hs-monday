@@ -24,7 +24,6 @@ const OAuthRedirect = ({ store, monday, namespace }) => {
   const code = getParameterByName({ store, name: 'code' })
   const stateParams = getParamsFromState({ store })
   const { mondayId, hootsuiteUid } = stateParams
-  console.log('sssss', stateParams)
 
   postItems({
     monday,

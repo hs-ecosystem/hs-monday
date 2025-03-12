@@ -114,7 +114,6 @@ exports.update = async (req, res) => {
     })
 
     if (userSettingsRes == 1) {
-      console.log('updated user settins! ==== ')
       res.send({ message: 'UserSettings was updated successfully.' })
     } else {
       console.log('Cannot update the UserSettings')

@@ -25,6 +25,7 @@ const {
 const { getFieldObject, getFieldMappings } = require('./user-settings.service')
 const { poll } = require('../utils/hootsuite')
 
+// This function is not used, but could be on monday.com
 const getHootsuiteFieldDefs = () => {
   console.log('get them defs', HOOTSUITE_FIELD_DEFS)
   return HOOTSUITE_FIELD_DEFS
@@ -354,7 +355,6 @@ const deleteHootsuiteMessage = async ({
     const axiosHeaders = { headers: { Authorization: shortLivedToken } }
     const axiosBody = { mondayId, messageId }
     const { data } = await axios.post(url, axiosBody, axiosHeaders)
-    console.log('deleted ddd', data)
     return data
   } catch (catchError) {
     const errorMessage = `Could not delete hootsuite message with ID: ${messageId}(${typeof messageId})`
@@ -457,6 +457,19 @@ const uploadAllMedia = async ({
 }) => {
   try {
     const mediaPromises = fileAssets.map(async (fileAsset) => {
+      console.log(
+        '~~ File Asset ~~',
+        fileAsset.file_size,
+        Number(fileAsset.file_size) / 1000000,
+        'MB ',
+        fileAsset
+      )
+      if (fileAsset.file_size > 5000000) {
+        const errorMessage = 'Media size too large.'
+        await addUpdateToItem({ token, itemId, updateMessage: errorMessage })
+        reportError(errorMessage, { fileAsset })
+        return { error: errorMessage }
+      }
       const uploadRes = await uploadMediaToHootsuite({
         shortLivedToken,
         mondayId,
@@ -890,14 +903,18 @@ const handleFileChange = async ({
           network: network.text,
         })
 
-        await changeColumnValue({
-          token,
-          boardId,
-          itemId,
-          columnId: mediaIdsColumnId,
-          value: mediaData.toString(),
-        })
-        return mediaData
+        if (mediaData) {
+          await changeColumnValue({
+            token,
+            boardId,
+            itemId,
+            columnId: mediaIdsColumnId,
+            value: mediaData.toString(),
+          })
+          return mediaData
+        } else {
+          return {}
+        }
       } else {
         // Error returning file assets
         const errorMessage = `Could not return file assets`

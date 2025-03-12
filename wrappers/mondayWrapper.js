@@ -64,22 +64,18 @@ const axe = ({
           Accept: 'application/json',
           Authorization: cryptr.decrypt(at),
         },
-        data: {
-          query,
-        },
+        data: JSON.stringify({ query }),
       })
         .then((response) =>
           handleSuccess(response, { res, req, query, reducer, then, noSend })
         )
         .catch((error) => handleError(error, { res, errorMessage }))
     } else {
-      console.log('query', query)
       const errorMessage = `No monday.com access token`
       res.send({ error: true, errorMessage })
     }
   } catch (catchError) {
     const errorMessage = `Monday Axe Error`
-    console.log('query', query)
     reportError(errorMessage, catchError)
     res.send({ error: true })
   }

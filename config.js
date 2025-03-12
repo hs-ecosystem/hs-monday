@@ -32,7 +32,7 @@ const config = {
       refreshTokenUrl: `https://auth.monday.com/oauth2/token`,
       redirectUrl: `${clientBaseUrl}/monday/oauth/redirect`,
     },
-    apiVersion: '2024-07',
+    apiVersion: '2025-01',
   },
   hootsuite: {
     name: {

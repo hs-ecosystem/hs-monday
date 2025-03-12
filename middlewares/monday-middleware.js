@@ -27,18 +27,17 @@ const getTokensFromDb = async ({ req, hootsuiteUid, mondayId }) => {
 const checkMondayMiddlewareAccessToken = async ({ at }) => {
   try {
     if (at) {
+      const query = 'query { me { id name photo_thumb } }'
       const res = await axios({
         url: config.monday.apiUrl,
-        method: 'GET',
+        method: 'POST',
         headers: {
           'API-Version': config.monday.apiVersion,
           'Content-Type': 'application/json',
           Accept: 'application/json',
           Authorization: cryptr.decrypt(at),
         },
-        data: {
-          query: `{ me { id, name, photo_thumb } }`,
-        },
+        data: JSON.stringify({ query: query }),
       })
       return res?.data?.data?.me?.id ? true : false
     } else {

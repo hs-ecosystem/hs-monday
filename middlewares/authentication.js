@@ -7,10 +7,6 @@ const authenticationMiddleware = async (req, res, next) => {
     if (!authorization && req.query) {
       authorization = req.query.token
     }
-    // const { accountId, userId, backToUrl, shortLivedToken } = jwt.verify(
-    //   authorization,
-    //   process.env.MONDAY_SIGNING_SECRET
-    // )
     const { accountId, userId, backToUrl, shortLivedToken } =
       jwt.decode(authorization)
     req.session = { accountId, userId, backToUrl, shortLivedToken }
@@ -30,7 +26,6 @@ const checkSignatureMiddleware = async (req, res, next) => {
       res.locals.monday_user_id = token.uid
     } else {
       const token = jwt.decode(authorization)
-      // const token = jwt.verify(authorization, process.env.MONDAY_CLIENT_SECRET)
       res.locals.monday_user_id = token.dat.user_id
     }
     next()
@@ -43,10 +38,6 @@ const checkSignatureMiddleware = async (req, res, next) => {
 
 const addMondayIdMiddleware = async (req, res, next) => {
   try {
-    // const mondayId = jwt.verify(
-    //   req.headers.authorization,
-    //   process.env.MONDAY_SIGNING_SECRET
-    // )
     const mondayId = jwt.decode(req.headers.authorization)
     res.locals.monday_user_id = mondayId
 

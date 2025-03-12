@@ -779,7 +779,6 @@ export const createMondayItem = async ({
       })
     }
   } catch (catchError) {
-    console.log('catch errorr rororororor', catchError)
     const errorMessage = `Could not create monday.com Item from Social Profile.`
     reportError(errorMessage, catchError)
   }
