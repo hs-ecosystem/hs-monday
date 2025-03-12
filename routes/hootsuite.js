@@ -145,7 +145,7 @@ router.post('/media/upload', async (req, res) => {
     const options = {
       method: 'PUT',
       url: uploadUrl,
-      timeout: 100000,
+      timeout: 29000,
       data: imageBuffer,
       headers: {
         'Content-Type': mimeType,

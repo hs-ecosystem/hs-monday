@@ -122,24 +122,3 @@ export const getScheduledMessages = async ({
     reportError(errorMessage, catchError)
   }
 }
-
-// export const attachWebhook = async ({
-//   oldMessage,
-//   mondayId,
-//   boardId,
-//   itemId,
-// }) => {
-//   try {
-//     const webhookMessageRes = await postItems({
-//       namespace: 'hootsuite',
-//       resource: 'webhook',
-//       action: 'attach',
-//       bodyData: { oldMessage, mondayId, boardId, itemId },
-//     })
-//     console.log('webhookMessageRes', webhookMessageRes)
-//     return webhookMessageRes.data
-//   } catch (catchError) {
-//     const errorMessage = `Could not attach webhook to Hootsuite message`
-//     reportError(store, errorMessage, catchError)
-//   }
-// }

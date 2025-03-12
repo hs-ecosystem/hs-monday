@@ -108,7 +108,6 @@ const Login = ({ monday, mondayId, mondayData, errorMessage }) => {
 
   useEffect(() => {
     const q = qs.parse(location.search)
-    console.log('qqq', q)
     if (q.error === '001') {
       setError({
         message:

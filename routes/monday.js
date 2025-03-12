@@ -62,7 +62,7 @@ router.post(
  * /api/monday/check-access-token
  */
 router.post('/check-access-token', checkSignatureMiddleware, (req, res) => {
-  const query = `{ me { id } }`
+  const query = `query { me { id } }`
   const eMsg = 'Could not Check Monday Access Token'
   const reducer = ({ data }) => ({ ...data.data.me, ok: true })
   monday.axe({ res, req, query, eMsg, reducer })
@@ -99,7 +99,7 @@ router.post(
  * /api/monday/me
  */
 router.post('/me', mondayMiddleware, (req, res) => {
-  const query = `{ me { id, name, photo_thumb  } }`
+  const query = `query { me { id, name, photo_thumb  } }`
   const eMsg = 'Could not get Monday Me'
   const reducer = (response) => ({ ...response.data.data.me })
   monday.axe({ res, req, query, eMsg, reducer })
@@ -109,7 +109,7 @@ router.post('/me', mondayMiddleware, (req, res) => {
  * /api/monday/boards
  */
 router.post('/boards', mondayMiddleware, (req, res) => {
-  const query = `{ boards { id, name, top_group { id } } }`
+  const query = `query { boards { id, name, top_group { id } } }`
   const eMsg = 'Could not get Monday Boards'
   const reducer = (response) => {
     return [...response.data.data.boards]
@@ -121,7 +121,7 @@ router.post('/boards', mondayMiddleware, (req, res) => {
  * /api/monday/users
  */
 router.post('/users', mondayMiddleware, (req, res) => {
-  const query = `{ users { id, name, email, photo_thumb } }`
+  const query = `query { users { id, name, email, photo_thumb } }`
   const eMsg = 'Could not get Monday Users'
   const reducer = (response) =>
     response.data.data.users.map((user) => ({
@@ -135,7 +135,7 @@ router.post('/users', mondayMiddleware, (req, res) => {
  * /api/monday/subscribers
  */
 router.post('/subscribers', mondayMiddleware, (req, res) => {
-  const query = `{ users { id, name, email, photo_thumb } }`
+  const query = `query { users { id, name, email, photo_thumb } }`
   const eMsg = 'Could not get Monday Subscribers'
   const reducer = (response) =>
     response.data.data.users.map((user) => ({
@@ -149,7 +149,7 @@ router.post('/subscribers', mondayMiddleware, (req, res) => {
  * /api/monday/groups
  */
 router.post('/groups', mondayMiddleware, (req, res) => {
-  const query = `{ boards(ids: [${req.body.board}]) { groups { id, title, color } } }`
+  const query = `query { boards(ids: [${req.body.board}]) { groups { id, title, color } } }`
   const eMsg = 'Could not get Monday Groups'
   const reducer = (response) => {
     return response.data.data.boards[0].groups.map((group) => ({
@@ -166,7 +166,7 @@ router.post('/groups', mondayMiddleware, (req, res) => {
  * /api/monday/columns
  */
 router.post('/columns', mondayMiddleware, (req, res) => {
-  const query = `{ boards(ids: [${req.body.board}]) { columns { id, title, type } } }`
+  const query = `query { boards(ids: [${req.body.board}]) { columns { id, title, type } } }`
   const eMsg = 'Could not get Monday Columns'
   const reducer = (response) => response.data.data.boards[0].columns
 
@@ -273,22 +273,23 @@ router.post('/files/add', mondayMiddleware, async (req, res) => {
   }
 })
 
-const fetchMondayMe = ({ mondayData }) => {
+const fetchMondayMe = async ({ mondayData }) => {
   try {
+    const query = `query { me { id, name, photo_thumb } }`
     const url = config.monday.apiUrl
-    const method = 'GET'
+    const method = 'POST'
     const headers = {
-      'API-Version': config.monday.apiUrl,
+      'API-Version': config.monday.apiVersion,
       'Content-Type': 'application/json',
       Authorization: mondayData.access_token,
     }
-    const data = { query: `{ me { id, name, photo_thumb } }` }
-    const fetchRes = axios({ url, method, headers, data })
+    const data = JSON.stringify({ query: query })
+    const fetchRes = await axios({ url, method, headers, data })
     return fetchRes
   } catch (catchError) {
-    console.log('r', catchError)
     const errorMessage = `Could not fetch Monday me`
-    return reportError(errorMessage, catchError)
+    reportError(errorMessage, catchError)
+    return { error: true, errorMessage }
   }
 }
 
@@ -326,7 +327,7 @@ router.post('/oauth/token', (req, res) => {
         const maybeErrorString = error?.response?.data?.errors
           ? JSON.stringify(error?.response?.data?.errors)
           : error
-        console.log('Error /api/monday/oauth/token ', error, maybeErrorString)
+        console.log('Error /api/monday/oauth/token', maybeErrorString)
         const errorMessage = 'Could not get Monday Auth Token'
         reportError(errorMessage, error?.response?.data?.errors)
         res.send(maybeErrorString)

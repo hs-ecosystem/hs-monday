@@ -523,7 +523,7 @@ const getFileAssets = async ({ token, value }) => {
     mondayClient.setToken(token)
 
     const idsArray = value.files.map((f) => f.assetId)
-    const query = `query { assets (ids: [${idsArray.toString()}]) { id, name, public_url } }`
+    const query = `query { assets (ids: [${idsArray.toString()}]) { id, name, public_url, url_thumbnail, file_extension, file_size, original_geometry } }`
 
     const response = await mondayClient.api(query)
     return response?.data?.assets

@@ -26,14 +26,12 @@
           : 'http://localhost:3000'
 
       const url = `${window.location.origin}/api/${vendorName}/oauth/token`
-      console.log('urrrr', url, mondayId)
       axios
         .post(url, {
           code,
           mondayId,
         })
         .then(({ data }) => {
-          console.log('adsasdfasdasaaaa ', data)
           window.opener.location.replace(`${baseUrl}/`)
           if (data?.errorCode === '001') {
             window.opener.location.replace(

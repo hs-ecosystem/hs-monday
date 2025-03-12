@@ -5,6 +5,7 @@ module.exports = (sequelize, Sequelize) => {
     },
     hootsuite_uid: {
       type: Sequelize.STRING,
+      unique: true,
     },
     access_token: {
       type: Sequelize.STRING(3000),

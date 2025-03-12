@@ -28,13 +28,12 @@ const handleSuccess = (response, options) => {
 }
 
 const handleError = (error, options) => {
-  // console.log('ppp')
-  // console.log(
-  //   'xxx handleError',
-  //   error.response.data,
-  //   options.route,
-  //   options.req.body
-  // )
+  console.log(
+    'xxx handleError',
+    error.response.data,
+    options.route,
+    options.req.body
+  )
   const errorMessage = error?.response?.data?.errors || error
   const e = filterError({ errorMessage })
 
